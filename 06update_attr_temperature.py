@@ -12,7 +12,7 @@ json_dict={
 }
   
 newHeaders = {'Content-type': 'application/json', 'Accept': 'application/json'}
-response = requests.put('http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Termometer:001/attrs', data=json.dumps(json_dict), headers=newHeaders)
+response = requests.post('http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Termometer:001/attrs', data=json.dumps(json_dict), headers=newHeaders)
 
 # success code - 204
 print(response) 
