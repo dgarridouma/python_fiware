@@ -1,13 +1,14 @@
 import requests
 import json
 import os
+import random
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 
 json_dict={
 #    "id": "urn:ngsi-ld:Termometer:001",
 #    "type": "Device",
-    "temperature": { "type": "Number", "value": 29.0},
+    "temperature": { "type": "Number", "value": random.randint(25,30)},
 }
   
 newHeaders = {'Content-type': 'application/json', 'Accept': 'application/json'}
