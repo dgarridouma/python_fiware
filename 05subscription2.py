@@ -1,3 +1,5 @@
+# Reduced payload with attrs and attrsFormat
+
 import requests
 import json
 from flask import Flask,request
@@ -8,7 +10,7 @@ YOUR_IP = '192.168.1.95' # Replace with the IP where you execute this script (e.
 
 app = Flask(__name__)
 
-@app.route("/subscription/temperature-change",methods=['POST'])
+@app.route("/subscription/temperature-change2",methods=['POST'])
 def changes():
     print('Change received: ')
     print(request.data)
@@ -29,22 +31,39 @@ response = requests.post('http://'+ORION_HOST+':1026/v2/entities',
                          headers=newHeaders)
 print("Status code: ", response.status_code)
 
+
+# Create entity
+json_dict={
+    "id": "urn:ngsi-ld:Termometer:002",
+    "type": "Device",
+    "temperature": { "type": "Number", "value": 25.0},
+    "humidity": { "type": "Number", "value": 80.0},
+}
+
+newHeaders = {'Content-type': 'application/json', 'Accept': 'application/json'}
+response = requests.post('http://'+ORION_HOST+':1026/v2/entities',
+                         data=json.dumps(json_dict),
+                         headers=newHeaders)
+print("Status code: ", response.status_code)
+
 # Create subscription
 json_dict={
-  "description": "Notify me of all temperature changes",
+  "description": "Notify me of all temperature changes for Termometer:002",
   "subject": {
-    "entities": [{"idPattern": ".*", "type": "Device"}],
+    "entities": [{"idPattern": "urn:ngsi-ld:Termometer:002", "type": "Device"}],
     "condition": {
-      "attrs": [ "temperature" ] # Fired when temperature changes. If empty, every change on every attribute is notified
+      "attrs": [ "temperature" ], # Fired when temperature changes. If empty, every change on every attribute is notified
+      "expression": {"q": "temperature>28"} # fire when temperature > 28. Several conditions using ;
     }
   },
   "notification": {
     "http": {
         # If we use orion in a container, we cannot use 'localhost' because localhost it is used by the container
         # We have to replace with our own IP (e.g. ipconfig)
-      "url": "http://"+YOUR_IP+":3000/subscription/temperature-change"
+      "url": "http://"+YOUR_IP+":3000/subscription/temperature-change2"
     },
-    "attrs": [ "temperature" ] # Only temperature attribute is notified
+    "attrs": [ "temperature" ], # Only temperature attribute is notified
+    "attrsFormat" : "keyValues"
   }
 }
 

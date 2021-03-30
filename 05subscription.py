@@ -29,6 +29,22 @@ response = requests.post('http://'+ORION_HOST+':1026/v2/entities',
                          headers=newHeaders)
 print("Status code: ", response.status_code)
 
+
+# Create entity
+json_dict={
+    "id": "urn:ngsi-ld:Termometer:002",
+    "type": "Device",
+    "temperature": { "type": "Number", "value": 25.0},
+    "humidity": { "type": "Number", "value": 80.0},
+}
+
+newHeaders = {'Content-type': 'application/json', 'Accept': 'application/json'}
+response = requests.post('http://'+ORION_HOST+':1026/v2/entities',
+                         data=json.dumps(json_dict),
+                         headers=newHeaders)
+print("Status code: ", response.status_code)
+
+
 # Create subscription
 json_dict={
   "description": "Notify me of all temperature changes",
