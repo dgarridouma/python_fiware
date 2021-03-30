@@ -44,7 +44,7 @@ json_dict={
         # We have to replace with our own IP (e.g. ipconfig)
       "url": "http://"+YOUR_IP+":3000/subscription/temperature-change"
     },
-    "attrs": [ "temperature" ] # Fired when temperature changes. If empty, every change on every attribute is notified
+    "attrs": [ "temperature" ] # Only temperature attribute is notified
   }
 }
 
