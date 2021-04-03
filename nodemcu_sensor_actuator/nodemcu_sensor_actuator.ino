@@ -1,3 +1,5 @@
+// Example to be used as sensor in 09agent_sensor_ultralight.py
+// and actuator in 10agent_actuator_ultralight3_nodemcu.py
 #include <ESP8266WiFi.h> 
 #include <ESP8266HTTPClient.h>
 #include "ESP8266WebServer.h"

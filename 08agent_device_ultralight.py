@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+from time import sleep
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
@@ -20,6 +21,7 @@ json_dict={
 }
 
 # If we try to use again the same API key, we obtain duplicated group error. We have to change the key
+# Somehow, API keys are used to identify groups
 newHeaders = {'Content-type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/'}
 response = requests.post('http://'+IOTAGENT_HOST+':4041/iot/services',
                          data=json.dumps(json_dict),
@@ -73,59 +75,52 @@ response.encoding='utf-8'
 
 print(response.text)
 
-# Checking pending commands (polling from the device) or checking only when sending measurement
-print('Checking command')
-newHeaders = {'Content-type': 'text/plain'}
-response = requests.get('http://'+IOTAGENT_HOST+':7896/iot/d?k=5jggokgpepnvsb2uv4s40d59ov&i=vehicle001&getCmd=1',
+rpm=2000
+while True:
+  # Checking pending commands (polling from the device) or checking when sending measurement
+  print('Checking command')
+
+  #newHeaders = {'Content-type': 'text/plain'}
+  #response = requests.get('http://'+IOTAGENT_HOST+':7896/iot/d?k=5jggokgpepnvsb2uv4s40d59ov&i=vehicle001&getCmd=1',
+  #                       headers=newHeaders)
+  #print("Status code: ", response.status_code)
+  #print(response.text)
+
+  newHeaders = {'Content-type': 'text/plain'}
+  response = requests.post('http://'+IOTAGENT_HOST+':7896/iot/d?k=5jggokgpepnvsb2uv4s40d59ov&i=vehicle001&getCmd=1',
+                         data='s|80#r|'+str(rpm),
                          headers=newHeaders)
-print("Status code: ", response.status_code)
-print(response.text)
+  print("Status code: ", response.status_code)
+  print(response.text)
 
-# Sending command
-json_dict={
-  "cmd": {
-      "type" : "command",
-      "value" : ""
-  }
-}
+  if len(response.text)>0: # Command received
+    cresponse=response.text+"cmd OK"
+    print('Sending response: '+cresponse)
 
-newHeaders = {'Content-Type': 'application/json','fiware-service': 'openiot', 'fiware-servicepath': '/'}
-url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:001/attrs'
-response=requests.patch(url,data=json.dumps(json_dict),headers=newHeaders)
-response.encoding='utf-8'
-print(response) 
-print(response.content) 
+    # Query command status (it should be PENDING)
+    newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+    url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
+    response=requests.get(url,headers=newHeaders)
+    response.encoding='utf-8'
+    print(response) 
+    print(response.content) 
 
-# Checking pending commands (polling from the device)
-print('Checking command')
-newHeaders = {'Content-type': 'text/plain'}
-response = requests.get('http://'+IOTAGENT_HOST+':7896/iot/d?k=5jggokgpepnvsb2uv4s40d59ov&i=vehicle001&getCmd=1',
-                         headers=newHeaders)
-print("Status code: ", response.status_code)
-print(response.text)
-cresponse=response.text+"cmd OK"
-
-# Query command status (PENDING)
-newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
-response=requests.get(url,headers=newHeaders)
-response.encoding='utf-8'
-print(response) 
-print(response.content) 
-
-# Sending response
-newHeaders = {'Content-type': 'text/plain'}
-response = requests.post('http://'+IOTAGENT_HOST+':7896/iot/d?k=5jggokgpepnvsb2uv4s40d59ov&i=vehicle001&getCmd=1',
+    # Sending response
+    newHeaders = {'Content-type': 'text/plain'}
+    response = requests.post('http://'+IOTAGENT_HOST+':7896/iot/d?k=5jggokgpepnvsb2uv4s40d59ov&i=vehicle001',
                          data=cresponse,                       
                          headers=newHeaders)
-print("Status code: ", response.status_code)
-print(response.text)
+    print("Status code: ", response.status_code)
+    print(response.text)
 
-# Query command status (OK)
-newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
-response=requests.get(url,headers=newHeaders)
-response.encoding='utf-8'
-print(response) 
-print(response.content) 
+    # Query command status (it should be OK)
+    newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+    url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
+    response=requests.get(url,headers=newHeaders)
+    response.encoding='utf-8'
+    print(response) 
+    print(response.content) 
+
+  rpm=rpm+1
+  sleep(5)
 

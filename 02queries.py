@@ -4,7 +4,7 @@ import os
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 
-print('Querying all entities')
+print('QUERYING ALL ENTITIES')
 url = 'http://'+ORION_HOST+':1026/v2/entities'
 response=requests.get(url)
 response.encoding='utf-8'
