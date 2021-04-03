@@ -1,4 +1,4 @@
-# Example just to check measurements when using a NodeMCU
+# Example just to check measurements when using (mostly) a NodeMCU
 import requests
 import json
 from flask import Flask,request
