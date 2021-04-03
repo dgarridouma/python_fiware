@@ -1,4 +1,4 @@
-# This example can be used to send commands to both desktop and NODEMCU actuators
+# This example can be used to send commands to both desktop and NodeMCU actuators
 import requests
 import json
 import os

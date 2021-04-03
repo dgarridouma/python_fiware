@@ -1,10 +1,11 @@
+# This examples is to be used combined with a NodeMCU
 import requests
 import json
 import os
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
-YOUR_IP = '192.168.1.98' # NODEMCU IP
+YOUR_IP = '192.168.1.98' # NodeMCU IP
 
 # Provisioning an actuator
 
