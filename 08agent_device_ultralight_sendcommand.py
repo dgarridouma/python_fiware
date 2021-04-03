@@ -1,3 +1,4 @@
+# Send command to examples #08 (desktop or NodeCMU)
 import requests
 import json
 import os
@@ -19,4 +20,5 @@ response=requests.patch(url,data=json.dumps(json_dict),headers=newHeaders)
 response.encoding='utf-8'
 print(response) 
 print(response.content) 
+
 

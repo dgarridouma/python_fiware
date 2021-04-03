@@ -1,3 +1,4 @@
+# Example for testing subscriptions (ex #5)
 import requests
 import json
 import os

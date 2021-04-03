@@ -43,6 +43,9 @@ json_dict={
        { "object_id": "s", "name": "speed", "type": "Number" },
        { "object_id": "r", "name": "rpm", "type": "Number" }
      ],
+     #"protocol": "PDI-IoTA-UltraLight",
+     #"transport": "HTTP",
+     #"endpoint": "http://"+YOUR_IP+":80/vehicle001", If we can "act" as server
      "commands": [ 
         { "name": "cmd", "type": "command" }
      ]

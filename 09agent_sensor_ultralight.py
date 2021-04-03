@@ -1,3 +1,4 @@
+# Provisioning a group and sensor (can be also combined with a NodeMCU)
 import requests
 import json
 from flask import Flask,request

@@ -1,4 +1,4 @@
-# This examples is to be used combined with a NodeMCU
+# This example is to be used combined with a NodeMCU
 import requests
 import json
 import os
