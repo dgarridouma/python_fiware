@@ -1,4 +1,4 @@
-// Example to be used as device in 08agent_device_ultralight_nodemcu.py
+// Example to be used as device in 08agent_device_ultralight3_nodemcu.py
 #include <ESP8266WiFi.h> 
 #include <ESP8266HTTPClient.h>
 #include "ESP8266WebServer.h"
