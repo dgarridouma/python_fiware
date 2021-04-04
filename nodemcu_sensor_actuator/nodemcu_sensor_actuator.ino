@@ -62,5 +62,8 @@ void loop() {
 void handleRootPath() {            //Handler for the rooth path
   Serial.println("Request received");
   Serial.println(server.arg("plain"));
-  server.send(200, "text/plain", server.arg("plain")+" ring OK"); 
+  String res=server.arg("plain");
+  res=res.substring(0,res.indexOf("|")+1)+"cmd OK";
+  Serial.println(res);
+  server.send(200, "text/plain", res); 
 }

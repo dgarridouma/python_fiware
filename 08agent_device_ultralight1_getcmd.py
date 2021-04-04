@@ -97,7 +97,7 @@ while True:
   print(response.text)
 
   if len(response.text)>0: # Command received
-    cresponse=response.text+"cmd OK"
+    cresponse=response.text[:response.text.find("|")+1]+"cmd OK"
     print('Sending response: '+cresponse)
 
     # Query command status (it should be PENDING)

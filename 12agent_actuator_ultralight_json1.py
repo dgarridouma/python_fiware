@@ -2,7 +2,6 @@ import requests
 import json
 from flask import Flask,request
 import os
-from time import sleep
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
@@ -13,11 +12,13 @@ app = Flask(__name__)
 @app.route("/bell001",methods=['POST'])
 def changes():
     print('Command received: ')
-    res=request.data.decode()
-    print(res)
-    res=res[:res.find("|")+1]+"ring OK" # this is needed to confirm command is finished
+    print(request.data.decode())
+    dres=json.loads(request.data.decode())
+    dres["ring"]=" ring OK"
+    res=json.dumps(dres) 
     print(res)
     return res
+
 
 
 # Provisioning an actuator

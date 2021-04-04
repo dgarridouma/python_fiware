@@ -1,4 +1,4 @@
-// Example to be used as device in 08agent_device_ultralight3_nodemcu.py
+// Example to be used as device in 08agent_device_ultralight_nodemcu.py
 #include <ESP8266WiFi.h> 
 #include <ESP8266HTTPClient.h>
 #include "ESP8266WebServer.h"
@@ -62,5 +62,8 @@ void loop() {
 void handleRootPath() {            //Handler for the rooth path
   Serial.println("Request received");
   Serial.println(server.arg("plain"));
-  server.send(200, "text/plain", server.arg("plain")+" cmd OK"); 
+  String res=server.arg("plain");
+  res=res.substring(0,res.indexOf("|")+1)+"cmd OK";
+  Serial.println(res);
+  server.send(200, "text/plain", res); 
 }
