@@ -2,6 +2,7 @@ import requests
 import json
 import os
 import paho.mqtt.client as mqtt
+from time import sleep
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
@@ -19,12 +20,15 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
-    res=msg.payload.decode()+" ring OK" # this is needed to confirm command is finished    
+    res=msg.payload.decode()
+    print(res)
+    res=res[:res.find("|")+1]+"ring OK" # this is needed to confirm command is finished    
     print(res)
     client.publish("/4jggokgpepnvsb2uv4s40d59ov/bell001/cmdexe", res, qos=0, retain=False)
 
 # Provisioning an actuator
-
+# The group must be provisioned before! (previous example)
+# (no explicit association is done when provisioning the device)
 json_dict={
   "devices": [
     {
@@ -59,4 +63,15 @@ client.connect(MQTT_HOST, 1883, 60)
 # handles reconnecting.
 # Other loop*() functions are available that give a threaded interface and a
 # manual interface.
-client.loop_forever()
+client.loop_start()
+
+while True:
+    # Querying data
+    newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+    url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Bell:001?type=Bell&options=keyValues'
+    response=requests.get(url,headers=newHeaders)
+    response.encoding='utf-8'
+
+    print(response.text)
+    sleep(1)
+

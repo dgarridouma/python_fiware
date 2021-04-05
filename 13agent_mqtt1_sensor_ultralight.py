@@ -23,6 +23,7 @@ def on_publish(client, userdata, mid):
 
 
 # Provisioning a group service
+# When using MQTT it seems that only a group (the first) is automatically used for sending commands!
 
 json_dict={
   "services": [
@@ -41,6 +42,7 @@ response = requests.post('http://'+IOTAGENT_HOST+':4041/iot/services',
                          headers=newHeaders)
 print("Status code: ", response.status_code)
 print(response.text)
+
 
 # Provisioning a sensor
 
