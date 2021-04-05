@@ -109,7 +109,36 @@ services:
     networks:
       default:
         ipv4_address: 172.18.1.4
-      
+
+ iot-agent-json-mqtt:
+          image: fiware/iotagent-json:${ULTRALIGHT_VERSION}
+          hostname: iot-agent
+          depends_on:
+            - mongo-db
+          networks:
+            default:
+              ipv4_address: 172.18.1.4
+          ports:
+            - "${IOTA_NORTH_PORT}:${IOTA_NORTH_PORT}" # localhost:4041
+            - "${IOTA_SOUTH_PORT}:${IOTA_SOUTH_PORT}" # localhost:7896
+          environment:
+            - IOTA_CB_HOST=orion
+            - IOTA_CB_PORT=${ORION_PORT} # port the context broker listens on to update context
+            - IOTA_NORTH_PORT=${IOTA_NORTH_PORT}
+            - IOTA_REGISTRY_TYPE=mongodb
+            - IOTA_LOG_LEVEL=DEBUG
+            - IOTA_TIMESTAMP=true
+            - IOTA_CB_NGSI_VERSION=v2
+            - IOTA_AUTOCAST=true
+            - IOTA_MONGO_HOST=mongo-db
+            - IOTA_MONGO_PORT=${MONGO_DB_PORT} # The port mongoDB is listening on
+            - IOTA_MONGO_DB=iotagentjson
+            - IOTA_HTTP_PORT=${IOTA_SOUTH_PORT} # The port used for device traffic over HTTP
+            - IOTA_PROVIDER_URL=http://iot-agent:${IOTA_NORTH_PORT}
+            - IOTA_MQTT_HOST=mosquitto # The host name of the MQTT Broker
+            - IOTA_MQTT_PORT=1883 # The port the MQTT Broker is listening on to receive topics
+            - IOTA_DEFAULT_RESOURCE= # Default is blank. I'm using MQTT so I don't need a resource
+
 
  cygnus:
     image: fiware/cygnus-ngsi:${CYGNUS_VERSION}

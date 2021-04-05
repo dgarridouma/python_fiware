@@ -3,6 +3,7 @@ import json
 import os
 import paho.mqtt.client as mqtt
 import time
+import json
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
@@ -29,6 +30,7 @@ json_dict={
    {
      "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
      "cbroker":     "http://orion:1026",
+     "protocol": [ "IoTA-JSON" ],
      "entity_type": "Thing",
      "resource":    "" # not needed for MQTT "/iot/d"
    }
@@ -51,7 +53,7 @@ json_dict={
      "device_id":   "motion001",
      "entity_name": "urn:ngsi-ld:Motion:001",
      "entity_type": "Motion",
-     "protocol":    "PDI-IoTA-UltraLight",  
+     "protocol": "IoTA-JSON",
      "transport":   "MQTT",                 # This is not specified when using http
      "timezone":    "Europe/Berlin",
      "attributes": [
@@ -80,9 +82,10 @@ client.loop_start()
 
 for i in range(3):
     print(i)
-    msg="c|"+str(i)
-
-    client.publish("/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs", msg, qos=0, retain=False)
+    msg=dict()
+    msg["c"]=str(i)
+    print(json.dumps(msg))
+    client.publish("/json/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs", json.dumps(msg), qos=0, retain=False)
     time.sleep(1)
 
 client.disconnect()
