@@ -1,4 +1,4 @@
-# This example is just to check the status of commands sent when used (mostly) in a NodeMCU
+# This example is just to check the status of commands
 import requests
 import json
 import os
