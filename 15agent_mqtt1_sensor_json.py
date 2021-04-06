@@ -30,7 +30,6 @@ json_dict={
    {
      "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
      "cbroker":     "http://orion:1026",
-     "protocol": [ "IoTA-JSON" ],
      "entity_type": "Thing",
      "resource":    "" # not needed for MQTT "/iot/d"
    }

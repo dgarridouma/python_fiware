@@ -26,8 +26,32 @@ def on_message(client, userdata, msg):
     print(res)
     client.publish("/4jggokgpepnvsb2uv4s40d59ov/bell001/cmdexe", res, qos=0, retain=False)
 
+
+# Provisioning a group service
+# When using MQTT it seems that only a group (the first) is automatically used for sending commands!
+
+json_dict={
+  "services": [
+   {
+     "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
+     "cbroker":     "http://orion:1026",
+     "entity_type": "Thing",
+     "resource":    "" # not needed for MQTT "/iot/d"
+   }
+ ]
+}
+
+newHeaders = {'Content-type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+response = requests.post('http://'+IOTAGENT_HOST+':4041/iot/services',
+                         data=json.dumps(json_dict),
+                         headers=newHeaders)
+print("Status code: ", response.status_code)
+print(response.text)
+
+
+
 # Provisioning an actuator
-# The group must be provisioned before! (previous example)
+# The group must be provisioned before!
 # (no explicit association is done when provisioning the device)
 json_dict={
   "devices": [
