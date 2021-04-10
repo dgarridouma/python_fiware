@@ -5,14 +5,13 @@ import warnings
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from time import sleep
 
-ORION_HOST = os.getenv('ORION_HOST','150.214.58.178')
-
 # Import settings from settings.py
 token=""
 USER = ""
 PASSWORD = ""
 SERVICE = ""
 SERVICE_PATH = ""
+ORION_HOST =""
 
 try:
    from settings import *
