@@ -39,4 +39,5 @@ print("Status code: ", response.status_code)
 
 # (As root user if needed):
 # docker exec -it spark-worker-1 bin/bash
+# /spark/bin/spark-submit --class  org.fiware.cosmos.tutorial.Logger --master spark://spark-master:7077 --deploy-mode client /home/cosmos-examples/target/cosmos-examples-1.2.2.jar --conf "spark.driver.extraJavaOptions=-Dlog4jspark.root.logger=WARN,console"
 # /spark/bin/spark-submit --class  org.fiware.cosmos.tutorial.MinTemp --master spark://spark-master:7077 --deploy-mode client /home/cosmos-examples/target/cosmos-examples-1.2.2.jar --conf "spark.driver.extraJavaOptions=-Dlog4jspark.root.logger=WARN,console"
