@@ -24,11 +24,10 @@ while True:
   
   newHeaders = {'Content-type': 'application/json', 'Accept': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/'}
   response = requests.post('http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Termometer:001/attrs', data=json.dumps(json_dict), headers=newHeaders)
-  # Update is shown in the Spark job log
   # success code - 204
   print(response) 
   
   print(response.content) 
   print(json_dict['temperature'],json_dict['motion'])
-  sleep(1) # BE CAREFUL with throtle in the subscription or the second termometer will not be stored
+  sleep(1)
 

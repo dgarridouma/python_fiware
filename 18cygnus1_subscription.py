@@ -45,3 +45,4 @@ print("Status code: ", response.status_code)
 # use sth_openiot
 # show collections
 # db["sth_/_urn:ngsi-ld:Termometer:001_Device"].find().limit(10);
+# db["sth_/_urn:ngsi-ld:Termometer:001_Device"].find({ attrName: "motion" , attrValue: 1 }).limit(10);

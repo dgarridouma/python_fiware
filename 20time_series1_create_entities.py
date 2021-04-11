@@ -72,4 +72,4 @@ response = requests.post('http://'+ORION_HOST+':1026/v2/subscriptions',
                          data=json.dumps(json_dict),
                          headers=newHeaders)
 print("Status code: ", response.status_code)
-# Use example 15 to insert data
+

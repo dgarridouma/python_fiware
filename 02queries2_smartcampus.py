@@ -55,22 +55,28 @@ def get_token():
 
   response=requests.post(url, headers=headers, data=json.dumps(payload), verify=False)
   response.encoding='utf-8'
+  print("Status code: ", response.status_code)
+  #print(response.text)
   print(response.headers["X-Subject-Token"])
   token=response.headers["X-Subject-Token"]
 
 
 get_token()
 url = 'https://'+ORION_HOST+':2026/v2/entities?id=waspmote:ISTHP02B'
-headers = {'fiware-service': SERVICE, 'fiware-servicepath': SERVICE_PATH, 'X-Auth-Token': token}
-
 
 while True:
   try:
+    headers = {'fiware-service': SERVICE, 'fiware-servicepath': SERVICE_PATH, 'X-Auth-Token': token}  # Maybe the token changed
     response=requests.get(url, headers=headers, verify=False)
     response.encoding='utf-8'
     #print(response.text)
     dict=json.loads(response.text)
+    print("Status code: ", response.status_code)
+    #print(response.text)
     print(dict[0]["TC"]["value"])
     sleep(60)
-  except:
-    get_token()
+  except Exception as ex:
+    print(ex)
+    if response.status_code == 401:
+      get_token()
+ 
