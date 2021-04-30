@@ -160,7 +160,32 @@ services:
     networks:
       default:
         ipv4_address: 172.18.1.7
-      
+
+ cygnus-mysql:
+   image: fiware/cygnus-ngsi:${CYGNUS_VERSION}
+   hostname: cygnus
+   container_name: fiware-cygnus
+   depends_on:
+      - mongo-db
+   expose:
+      - "${CYGNUS_API_PORT}"
+   ports:
+      - "${CYGNUS_MONGO_SERVICE_PORT}:${CYGNUS_MONGO_SERVICE_PORT}"
+      - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}"
+   environment:
+      - "CYGNUS_LOG_LEVEL=DEBUG"
+      - "CYGNUS_API_PORT=${CYGNUS_API_PORT}"
+      - "CYGNUS_MYSQL_HOST=mysql-db"
+      - "CYGNUS_MYSQL_PORT=${CYGNUS_MYSQL_PORT}"
+      - "CYGNUS_MYSQL_USER=root"
+      - "CYGNUS_MYSQL_PASS=secret"     # Just for testing
+      - "CYGNUS_MYSQL_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"           
+      - "CYGNUS_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}" # Just for testing: Same port used with Mongo
+   networks:
+     default:
+      ipv4_address: 172.18.1.7
+    
+
  mosquitto:
    image: eclipse-mosquitto:1.6.13
    hostname: mosquitto
@@ -360,7 +385,7 @@ services:
         ipv4_address: 172.18.1.6
     environment:
       - "MYSQL_ROOT_PASSWORD_FILE=/run/secrets/my_secret_data"
-      - "MYSQL_ROOT_HOST=172.18.1.5" # Allow Keyrock to access this database
+      - "MYSQL_ROOT_HOST=%" # If we put 172.18.1.5 then only Keyrock can access to this database
     volumes:
       - mysql-db:/var/lib/mysql
       - ./mysql-data:/docker-entrypoint-initdb.d/:ro # Preload Keyrock Users
