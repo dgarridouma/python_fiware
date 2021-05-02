@@ -102,7 +102,7 @@ while True:
 
     # Query command status (it should be PENDING)
     newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-    url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
+    url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
     response=requests.get(url,headers=newHeaders)
     response.encoding='utf-8'
     print(response) 
@@ -118,7 +118,7 @@ while True:
 
     # Query command status (it should be OK)
     newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-    url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
+    url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
     response=requests.get(url,headers=newHeaders)
     response.encoding='utf-8'
     print(response) 
