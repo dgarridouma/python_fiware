@@ -4,7 +4,7 @@ from flask import Flask,request
 import os
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
-YOUR_IP = '192.168.1.95' # Replace with the IP or URL where you want to receive notifications (e.g. your IP using ifconfig or hostname -i)
+YOUR_IP = '192.168.1.95' # Replace with the IP or URL where you want to receive notifications (e.g. your IP using ifconfig, hostname -i or ip a)
 
 app = Flask(__name__)
 
