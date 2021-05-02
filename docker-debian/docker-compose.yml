@@ -6,7 +6,7 @@ services:
      - "4389:3389"
    volumes: 
      - ${MYFOLDER}:/home/alumno/data # shared folder
-     - ${MYFOLDER}/.xsessionrc:/home/alumno/.xsessionrc # env variables
+     - .xsessionrc:/home/alumno/.xsessionrc # env variables
      - /var/run/docker.sock:/var/run/docker.sock # docker in docker
      - type: tmpfs
        target: /dev/shm # firefox requirement
