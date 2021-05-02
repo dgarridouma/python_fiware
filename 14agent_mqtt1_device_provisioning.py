@@ -64,7 +64,7 @@ print(response.text)
 
 while True:
   newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-  url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:002?options=keyValues&type=Vehicle'
+  url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:002?options=keyValues&type=Vehicle'
   response=requests.get(url,headers=newHeaders)
   response.encoding='utf-8'
   print(response) 
