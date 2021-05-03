@@ -149,42 +149,42 @@ services:
     expose:
         - "${CYGNUS_API_PORT}"
     ports:
-        - "${CYGNUS_MONGO_SERVICE_PORT}:${CYGNUS_MONGO_SERVICE_PORT}"
+        - "${CYGNUS_SERVICE_PORT}:${CYGNUS_SERVICE_PORT}"
         - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}"
     environment:
         - "CYGNUS_MONGO_HOSTS=mongo-db:${MONGO_DB_PORT}"
-        - "CYGNUS_MONGO_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"
+        - "CYGNUS_MONGO_SERVICE_PORT=${CYGNUS_SERVICE_PORT}"
         - "CYGNUS_LOG_LEVEL=DEBUG"
         - "CYGNUS_API_PORT=${CYGNUS_API_PORT}"
-        - "CYGNUS_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"
+        - "CYGNUS_SERVICE_PORT=${CYGNUS_SERVICE_PORT}"
     networks:
       default:
         ipv4_address: 172.18.1.7
 
  cygnus-mysql:
-   image: fiware/cygnus-ngsi:${CYGNUS_VERSION}
-   hostname: cygnus
-   container_name: fiware-cygnus
-   depends_on:
-      - mongo-db
-   expose:
-      - "${CYGNUS_API_PORT}"
-   ports:
-      - "${CYGNUS_MONGO_SERVICE_PORT}:${CYGNUS_MONGO_SERVICE_PORT}"
-      - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}"
-   environment:
-      - "CYGNUS_LOG_LEVEL=DEBUG"
-      - "CYGNUS_API_PORT=${CYGNUS_API_PORT}"
-      - "CYGNUS_MYSQL_HOST=mysql-db"
-      - "CYGNUS_MYSQL_PORT=${CYGNUS_MYSQL_PORT}"
-      - "CYGNUS_MYSQL_USER=root"
-      - "CYGNUS_MYSQL_PASS=secret"     # Just for testing
-      - "CYGNUS_MYSQL_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"           
-      - "CYGNUS_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}" # Just for testing: Same port used with Mongo
-   networks:
-     default:
-      ipv4_address: 172.18.1.7
-    
+    image: fiware/cygnus-ngsi:${CYGNUS_VERSION}
+    hostname: cygnus
+    container_name: fiware-cygnus
+    depends_on:
+        - mysql-db
+    expose:
+        - "${CYGNUS_API_PORT}"
+    ports:
+        - "${CYGNUS_SERVICE_PORT}:${CYGNUS_SERVICE_PORT}"
+        - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}"
+    environment:
+        - "CYGNUS_LOG_LEVEL=DEBUG"
+        - "CYGNUS_API_PORT=${CYGNUS_API_PORT}"
+        - "CYGNUS_MYSQL_HOST=mysql-db"
+        - "CYGNUS_MYSQL_PORT=${CYGNUS_MYSQL_PORT}"
+        - "CYGNUS_MYSQL_USER=root"
+        - "CYGNUS_MYSQL_PASS=secret"     # Just for testing
+        - "CYGNUS_MYSQL_SERVICE_PORT=${CYGNUS_SERVICE_PORT}"           
+        - "CYGNUS_SERVICE_PORT=${CYGNUS_SERVICE_PORT}"
+    networks:
+      default:
+        ipv4_address: 172.18.1.7
+          
 
  mosquitto:
    image: eclipse-mosquitto:1.6.13
