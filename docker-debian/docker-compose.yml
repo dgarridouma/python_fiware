@@ -1,7 +1,7 @@
 version: "3.6"
 services:
  debian:
-   image: dgarridouma/debian_xrdp_vscode_java_cosmos_docker
+   image: dgarridouma/debian_xrdp_vscode_java_cosmos_docker_iotcore
    ports:
      - "4389:3389"
    volumes: 
