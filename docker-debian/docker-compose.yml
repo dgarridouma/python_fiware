@@ -249,6 +249,19 @@ services:
    volumes:
        - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
  
+ node-red:
+  image: nodered/node-red:1.2.9
+  environment:
+    - TZ=Europe/Amsterdam
+  ports:
+    - "1880:1880"
+  volumes:
+    - node-red-data:/data
+  networks:
+      default:
+        ipv4_address: 172.18.1.77
+   
+
  spark-master:
     image: bde2020/spark-master:${SPARK_VERSION}
     container_name: spark-master
