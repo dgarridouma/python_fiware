@@ -6,7 +6,7 @@ ORION_HOST = os.getenv('ORION_HOST','localhost')
 
 # Create entity
 json_dict={
-    "id": "urn:ngsi-ld:Termometer:001",
+    "id": "urn:ngsi-ld:Termometer:003",
     "type": "Device",
     "temperature": { "type": "Number", "value": 25.0},
     "motion": { "type": "Number", "value": 0.0}

@@ -11,7 +11,7 @@ response.encoding='utf-8'
 
 print(response.text)
 
-#url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Temperature:001?type=Device'
+#url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Temperature:003?type=Device'
 #response=requests.get(url)
 #response.encoding='utf-8'
 
