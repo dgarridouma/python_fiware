@@ -53,7 +53,7 @@ print("Status code: ", response.status_code)
 json_dict={
   "description": "Notify QuantumLeap of all context changes",
   "subject": {
-    "entities": [{"idPattern": ".*"}]
+    "entities": [{"idPattern": "^urn:ngsi-ld:Termometer:00[3-4]"}]
   },
 "notification": {
     "http": {
