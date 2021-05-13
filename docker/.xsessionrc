@@ -1,7 +1,0 @@
-export ORION_HOST=orion
-export IOTAGENT_HOST=iot-agent
-export MQTT_HOST=mosquitto
-export COMET_HOST=sth-comet
-export QUANTUMLEAP_HOST=quantumleap
-
-
