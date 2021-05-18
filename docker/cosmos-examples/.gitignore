@@ -1,6 +1,7 @@
 *.class
 *.timestamp
-*.jar
+target
+
 
 
 
