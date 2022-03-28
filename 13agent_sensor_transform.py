@@ -1,7 +1,6 @@
 # Provisioning a group and sensor (can be also combined with a NodeMCU)
 import requests
 import json
-from flask import Flask,request
 import os
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
@@ -15,7 +14,7 @@ json_dict={
      "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
      "cbroker":     "http://orion:1026",
      "entity_type": "Thing",
-     "resource":    "/iot/json" # URL where devices send data. It is required but it seems that cannot be changed
+     "resource":    "/iot/d" # URL where devices send data. It is required but it seems that cannot be changed
                              # https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html 
    }
  ]
@@ -40,7 +39,8 @@ json_dict={
      "entity_type": "Motion",
      "timezone":    "Europe/Berlin",
      "attributes": [
-       { "object_id": "c", "name": "count", "type": "Integer" }
+       { "object_id": "c", "name": "count", "type": "Integer" },
+       { "name": "count100", "type": "Number", "expression": "${@count*100}" }
      ],
    }
  ]
@@ -57,9 +57,9 @@ print(response.text)
 # Simulate a measurement (PORT 7896)
 # Be careful! If we use a non-existing id, the request also returns a 200 code because an entity is created with that id
 # and entity name Thing:id-used
-newHeaders = {'Content-type': 'application/json'}
-response = requests.post('http://'+IOTAGENT_HOST+':7896/iot/json?k=4jggokgpepnvsb2uv4s40d59ov&i=motion001',
-                         data='{"c": "1"}',
+newHeaders = {'Content-type': 'text/plain'}
+response = requests.post('http://'+IOTAGENT_HOST+':7896/iot/d?k=4jggokgpepnvsb2uv4s40d59ov&i=motion001',
+                         data='c|1',
                          headers=newHeaders)
 print("Status code: ", response.status_code)
 print(response.text)

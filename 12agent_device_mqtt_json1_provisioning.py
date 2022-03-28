@@ -1,3 +1,6 @@
+# This example creates a group service and a device waiting
+# for data from a device using MQTT with JSON
+
 import requests
 import json
 import os
@@ -5,18 +8,16 @@ from time import sleep
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
-YOUR_IP = '192.168.1.98' # NodeMCU IP
 
 # Provisioning a group service
 # This example provisions an anonymous group of devices.
 json_dict={
   "services": [
    {
-     "apikey":      "5jggokgpepnvsb2uv4s40d59ov",
+     "apikey":      "12jggokgpepnvsb2uv4s40d59ov",
      "cbroker":     "http://orion:1026",
      "entity_type": "Thing2",
-     "resource":    "/iot/d" # URL where devices send data. It is required but it seems that cannot be changed
-                             # https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html 
+     "resource":    "" 
    }
  ]
 }
@@ -36,17 +37,17 @@ print(response.text)
 json_dict={
  "devices": [
    {
-     "device_id":   "vehicle001",
-     "entity_name": "urn:ngsi-ld:Vehicle:001",
+     "device_id":   "vehicle012",
+     "entity_name": "urn:ngsi-ld:Vehicle:012",
      "entity_type": "Vehicle",
      "timezone":    "Europe/Berlin",
      "attributes": [
        { "object_id": "s", "name": "speed", "type": "Number" },
        { "object_id": "r", "name": "rpm", "type": "Number" }
      ],
-     "protocol": "PDI-IoTA-UltraLight",
-     "transport": "HTTP",
-     "endpoint": "http://"+YOUR_IP+":80/vehicle001",
+      "protocol": "IoTA-JSON", # seems not necessary. Just in case.
+      "transport": "MQTT",
+     #"endpoint": "http://"+YOUR_IP+":80/vehicle001", If we can "act" as server
      "commands": [ 
         { "name": "cmd", "type": "command" }
      ]
@@ -62,10 +63,11 @@ print("Status code: ", response.status_code)
 print(response.text)
 
 while True:
-    newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-    url = 'http://localhost:1026/v2/entities/urn:ngsi-ld:Vehicle:001?options=keyValues'
-    response=requests.get(url,headers=newHeaders)
-    response.encoding='utf-8'
-    print(response) 
-    print(response.content) 
-    sleep(1)
+  newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+  url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:012?options=keyValues&type=Vehicle'
+  response=requests.get(url,headers=newHeaders)
+  response.encoding='utf-8'
+  print(response) 
+  print(response.content) 
+  sleep(1)
+

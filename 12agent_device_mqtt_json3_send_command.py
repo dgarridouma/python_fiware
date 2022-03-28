@@ -1,3 +1,4 @@
+# Send command to devices of #11 examples
 import requests
 import json
 import os
@@ -11,7 +12,7 @@ json_dict={
 }
 
 newHeaders = {'Content-Type': 'application/json','fiware-service': 'openiot', 'fiware-servicepath': '/'}
-url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:002/attrs/cmd?type=Vehicle'
+url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:012/attrs/cmd?type=Vehicle'
 response=requests.put(url,data=json.dumps(json_dict),headers=newHeaders)
 response.encoding='utf-8'
 print(response) 

@@ -1,11 +1,10 @@
-# This examples is just to send data to example 14agent_mqtt_device_provisioning.py as alternative to NodeMCU
-# The group must be created before
-
-import requests
-import json
+# This example simulates a device sending measurements
+# and using Flask to receive commands. JSON is also used
 import os
 import paho.mqtt.client as mqtt
 import time
+from time import sleep
+import json
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
 IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
@@ -18,7 +17,7 @@ def on_connect(client, userdata, flags, rc):
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
 
-    client.subscribe("/4jggokgpepnvsb2uv4s40d59ov/vehicle002/cmd")
+    client.subscribe("/12jggokgpepnvsb2uv4s40d59ov/vehicle012/cmd") # json seems not necessary
 
 # The callback for when a PUBLISH message is received from the server.
 def on_publish(client, userdata, mid):
@@ -27,13 +26,11 @@ def on_publish(client, userdata, mid):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
-    res=msg.payload.decode()
-    print(res)
-    res=res[:res.find("|")+1]+"cmd OK" # this is needed to confirm command is finished    
-    print(res)
-    client.publish("/4jggokgpepnvsb2uv4s40d59ov/vehicle002/cmdexe", res, qos=0, retain=False)
-
-
+    res=json.loads(msg.payload.decode())
+    res["cmd"]="cmd OK" # this is needed to confirm command is finished
+    sleep(5) # working
+    print(res)     
+    client.publish("/json/12jggokgpepnvsb2uv4s40d59ov/vehicle012/cmdexe", json.dumps(res), qos=0, retain=False)
 
 # Simulate a measurement
 # docker run -it --rm --name mqtt-publisher --network varios_default efrecon/mqtt-client pub -h mosquitto -m "c|1" -t "/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs"
@@ -50,17 +47,11 @@ client.loop_start()
 i=0
 while True:
     print(i)
-    msg="s|80#r|"+str(i)
+    msg=dict()
+    msg["s"]=80
+    msg["r"]=str(i)
+    print(json.dumps(msg))
+    client.publish("/json/12jggokgpepnvsb2uv4s40d59ov/vehicle012/attrs", json.dumps(msg), qos=0, retain=False)
+
     i=i+1
-
-    client.publish("/4jggokgpepnvsb2uv4s40d59ov/vehicle002/attrs", msg, qos=0, retain=False)
     time.sleep(1)
-
-    # Querying data
-    newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-    url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:002?type=Vehicle&options=keyValues'
-    response=requests.get(url,headers=newHeaders)
-    response.encoding='utf-8'
-
-    print(response.text)
-

@@ -1,4 +1,4 @@
-# Send command to examples #08 (desktop or NodeCMU)
+# Send command to devices of #08 examples
 import requests
 import json
 import os
@@ -14,11 +14,9 @@ json_dict={
 }
 
 newHeaders = {'Content-Type': 'application/json','fiware-service': 'openiot', 'fiware-servicepath': '/'}
-url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:001/attrs/cmd?type=Vehicle' # type=Vehicle seems necessary
+url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:008/attrs/cmd?type=Vehicle' # type=Vehicle seems necessary
                                                                                               # to transmit "value"
 response=requests.put(url,data=json.dumps(json_dict),headers=newHeaders)
 response.encoding='utf-8'
 print(response) 
 print(response.content) 
-
-

@@ -3,7 +3,7 @@
 const char* ssid = "YOUR_SSID"; // Fill in with your WiFi SSID
 const char* password = "YOUR_PASSWORD"; // Fill in with your WiFi password
 
-const char* host = "192.168.1.95";  // Orion context broker IP
+const char* host = "YOUR_CB_IP";  // Fill with your Orion context broker IP
 
 void setup() {
   Serial.begin(115200);

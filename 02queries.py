@@ -1,5 +1,4 @@
 import requests
-import json
 import os
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')

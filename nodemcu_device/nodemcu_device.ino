@@ -1,4 +1,4 @@
-// Example to be used as device in 08agent_device_ultralight_nodemcu.py
+// Example to be used as device in 09agent_device examples
 #include <ESP8266WiFi.h> 
 #include <ESP8266HTTPClient.h>
 #include "ESP8266WebServer.h"
@@ -34,14 +34,17 @@ void setup() {
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP()); // We show our IP
  
-  server.on("/vehicle001", HTTP_POST,handleRootPath);    //Associate the handler function to the path
+  server.on("/vehicle009", HTTP_POST,handleRootPath);    //Associate the handler function to the path
   server.begin();                    //Start the server
   Serial.println("Server listening");
 }
 
 void loop() {
+  WiFiClient client;
+
   HTTPClient http;
-  http.begin("http://192.168.1.95:7896/iot/d?k=5jggokgpepnvsb2uv4s40d59ov&i=vehicle001");
+  // UPDATE with IP of your IoT Agent
+  http.begin(client,"http://192.168.1.109:7896/iot/d?k=9jggokgpepnvsb2uv4s40d59ov&i=vehicle009");
   http.addHeader("Content-Type", "text/plain");
 
   // Sensing
@@ -63,6 +66,12 @@ void handleRootPath() {            //Handler for the rooth path
   Serial.println("Request received");
   Serial.println(server.arg("plain"));
   String res=server.arg("plain");
+
+  // We "work"
+  // ...
+  // and send response
+  delay(5000);
+  
   res=res.substring(0,res.indexOf("|")+1)+"cmd OK";
   Serial.println(res);
   server.send(200, "text/plain", res); 

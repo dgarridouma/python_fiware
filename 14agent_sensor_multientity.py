@@ -1,7 +1,6 @@
 # Provisioning a group and sensor (can be also combined with a NodeMCU)
 import requests
 import json
-from flask import Flask,request
 import os
 
 ORION_HOST = os.getenv('ORION_HOST','localhost')
@@ -35,13 +34,13 @@ print(response.text)
 json_dict={
  "devices": [
    {
-     "device_id":   "motion001",
-     "entity_name": "urn:ngsi-ld:Motion:001",
+     "device_id":   "room001",
+     "entity_name": "urn:ngsi-ld:Room:001",
      "entity_type": "Motion",
      "timezone":    "Europe/Berlin",
      "attributes": [
-       { "object_id": "c", "name": "count", "type": "Integer" },
-       { "name": "count100", "type": "Number", "expression": "${@count*100}" }
+       { "object_id": "h", "name": "temperature", "type": "Integer", "entity_name": "dev:temp1","entity_type": "Device" },
+       { "object_id": "t", "name": "humidity", "type": "Integer", "entity_name": "dev:hum1","entity_type": "Device"},
      ],
    }
  ]
@@ -59,32 +58,26 @@ print(response.text)
 # Be careful! If we use a non-existing id, the request also returns a 200 code because an entity is created with that id
 # and entity name Thing:id-used
 newHeaders = {'Content-type': 'text/plain'}
-response = requests.post('http://'+IOTAGENT_HOST+':7896/iot/d?k=4jggokgpepnvsb2uv4s40d59ov&i=motion001',
-                         data='c|1',
+response = requests.post('http://'+IOTAGENT_HOST+':7896/iot/d?k=4jggokgpepnvsb2uv4s40d59ov&i=room001',
+                         data='h|80#t|25',
                          headers=newHeaders)
 print("Status code: ", response.status_code)
 print(response.text)
 
 # Querying data
 newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Motion:001'
+url = 'http://'+ORION_HOST+':1026/v2/entities/dev:temp1'
 response=requests.get(url,headers=newHeaders)
 response.encoding='utf-8'
 
 print(response.text)
 
-# Check existing devices
-#newHeaders = {'Content-type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-#response = requests.get('http://'+IOTAGENT_HOST+':4041/iot/devices',
-#                         headers=newHeaders)
-#print("Status code: ", response.status_code)
-#print(response.text)
 
 # Querying data
-#newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-#url = 'http://'+ORION_HOST+':1026/v2/entities/Thing:motion002?type=Thing'
-#response=requests.get(url,headers=newHeaders)
-#response.encoding='utf-8'
+newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+url = 'http://'+ORION_HOST+':1026/v2/entities/dev:hum1'
+response=requests.get(url,headers=newHeaders)
+response.encoding='utf-8'
 
-#print(response.text)
+print(response.text)
 

@@ -1,4 +1,4 @@
-// Example to be used with 14agent_mqtt1_device_provisioning.py and 14agent_mqtt3_send_command_ultralight.py
+// Example to be used as device in 11agent_device_mqtt examples
 /* MQTT-FIWARE Example created from...*/
 /***************************************************
   Adafruit MQTT Library ESP8266 Example
@@ -23,13 +23,13 @@
 
 /************************* WiFi Access Point *********************************/
 
-#define WLAN_SSID       "YOUR SSID HERE"
-#define WLAN_PASS       "YOUR PASSWORD HERE"
+#define WLAN_SSID       "YOUR_SSID"
+#define WLAN_PASS       "YOUR_PASS"
 
 
 /************************* Adafruit.io Setup *********************************/
 
-#define AIO_SERVER      "YOUR MQTT IP HERE"        
+#define AIO_SERVER      "YOUR_BROKER_IP" // Update with IP of your MQTT broker
 #define AIO_SERVERPORT  1883                   // use 8883 for SSL
 
 /************ Global State (you don't need to change this!) ******************/
@@ -45,12 +45,12 @@ Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, "", "");
 /****************************** Feeds ***************************************/
 
 // Setup feeds for publishing.
-Adafruit_MQTT_Publish measurement = Adafruit_MQTT_Publish(&mqtt, "/4jggokgpepnvsb2uv4s40d59ov/vehicle002/attrs");
+Adafruit_MQTT_Publish measurement = Adafruit_MQTT_Publish(&mqtt, "/11jggokgpepnvsb2uv4s40d59ov/vehicle011/attrs");
 
-Adafruit_MQTT_Publish cmdexe = Adafruit_MQTT_Publish(&mqtt, "/4jggokgpepnvsb2uv4s40d59ov/vehicle002/cmdexe");
+Adafruit_MQTT_Publish cmdexe = Adafruit_MQTT_Publish(&mqtt, "/11jggokgpepnvsb2uv4s40d59ov/vehicle011/cmdexe");
 
 // Setup a feed called 'cmd' for subscribing to commands.
-Adafruit_MQTT_Subscribe cmd = Adafruit_MQTT_Subscribe(&mqtt, "/4jggokgpepnvsb2uv4s40d59ov/vehicle002/cmd");
+Adafruit_MQTT_Subscribe cmd = Adafruit_MQTT_Subscribe(&mqtt, "/11jggokgpepnvsb2uv4s40d59ov/vehicle011/cmd");
 
 /*************************** Sketch Code ************************************/
 

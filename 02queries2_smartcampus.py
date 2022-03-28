@@ -1,6 +1,5 @@
 import requests
 import json
-import os
 import warnings
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from time import sleep

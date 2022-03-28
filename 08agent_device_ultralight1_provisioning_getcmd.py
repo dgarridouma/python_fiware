@@ -1,4 +1,5 @@
-# Provisioning a group and sensor (can be also combined with a NodeMCU)
+# This example creates a group service and a device waiting
+# for data from a device using getcmd
 import requests
 import json
 import os
@@ -12,16 +13,17 @@ IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
 json_dict={
   "services": [
    {
-     "apikey":      "4jggokgpepnvsb2uv4s40d59ov",
+     "apikey":      "8jggokgpepnvsb2uv4s40d59ov",
      "cbroker":     "http://orion:1026",
-     "entity_type": "Thing",
+     "entity_type": "Thing2",
      "resource":    "/iot/d" # URL where devices send data. It is required but it seems that cannot be changed
                              # https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html 
    }
  ]
 }
 
-# If we try to use again the same API key, we obtain duplicated group error.
+# If we try to use again the same API key, we obtain duplicated group error. We have to change the key
+# Somehow, API keys are used to identify groups
 newHeaders = {'Content-type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/'}
 response = requests.post('http://'+IOTAGENT_HOST+':4041/iot/services',
                          data=json.dumps(json_dict),
@@ -29,22 +31,28 @@ response = requests.post('http://'+IOTAGENT_HOST+':4041/iot/services',
 print("Status code: ", response.status_code)
 print(response.text)
 
-# Provisioning a sensor
+# Provisioning a device (sensor+commands)
 # Note that no information about the device group is provided (this is done when sending measurement)
 # This only creates the BROKER entity associated to the physical device
 json_dict={
  "devices": [
    {
-     "device_id":   "motion001",
-     "entity_name": "urn:ngsi-ld:Motion:001",
-     "entity_type": "Motion",
+     "device_id":   "vehicle008",
+     "entity_name": "urn:ngsi-ld:Vehicle:008",
+     "entity_type": "Vehicle",
      "timezone":    "Europe/Berlin",
      "attributes": [
-       { "object_id": "c", "name": "count", "type": "Integer" }
+       { "object_id": "s", "name": "speed", "type": "Number" },
+       { "object_id": "r", "name": "rpm", "type": "Number" }
      ],
+     #"protocol": "PDI-IoTA-UltraLight",
+     #"transport": "HTTP",
+     #"endpoint": "http://"+YOUR_IP+":80/vehicle001", If we can "act" as server
+     "commands": [ 
+        { "name": "cmd", "type": "command" }
+     ]
    }
  ]
- # commands can be also included
 }
 
 newHeaders = {'Content-type': 'application/json', 'fiware-service': 'openiot', 'fiware-servicepath': '/'}
@@ -54,11 +62,13 @@ response = requests.post('http://'+IOTAGENT_HOST+':4041/iot/devices',
 print("Status code: ", response.status_code)
 print(response.text)
 
-# Querying data
-newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Motion:001'
+
 while True:
+  # Querying data
+  newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
+  url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Vehicle:008?options=keyValues'
   response=requests.get(url,headers=newHeaders)
   response.encoding='utf-8'
+
   print(response.text)
-  sleep(5)
+  sleep(1)
