@@ -38,7 +38,7 @@ response = requests.post('http://'+ORION_HOST+':1026/v2/subscriptions',
                          headers=newHeaders)
 print("Status code: ", response.status_code)
 # Use next example to insert data and then:
-# docker run -it --network docker_default --entrypoint /bin/bash mongo
+# docker run -it --network iot --entrypoint /bin/bash mongo
 # A shell opens:
 # mongo --host mongo-db
 # show dbs
