@@ -302,13 +302,13 @@ services:
       default:
 
  grafana:
-    image: grafana/grafana:7.4.3
+    image: grafana/grafana:8.4.5
     depends_on:
         - crate-db
     ports:
         - "3003:3000"
     environment:
-        - GF_INSTALL_PLUGINS=https://github.com/orchestracities/grafana-map-plugin/archive/master.zip;grafana-map-plugin,grafana-clock-panel,grafana-worldmap-panel 
+        - GF_INSTALL_PLUGINS=https://github.com/orchestracities/grafana-map-plugin/releases/download/v1.4.2/orchestracities-map-panel-1.4.2.zip;grafana-map-plugin,grafana-clock-panel,grafana-worldmap-panel 
     networks:
       default:
         
