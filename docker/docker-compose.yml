@@ -281,8 +281,7 @@ services:
         # Transport protocol
         - "4300:4300"
     command:
-        crate -Cauth.host_based.enabled=false  -Ccluster.name=democluster -Chttp.cors.enabled=true
-        -Chttp.cors.allow-origin="*"
+        crate -Cdiscovery.type=single-node 
     environment:
         - CRATE_HEAP_SIZE=2g
     networks:
