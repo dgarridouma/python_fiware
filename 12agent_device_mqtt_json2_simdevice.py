@@ -6,8 +6,6 @@ import time
 from time import sleep
 import json
 
-ORION_HOST = os.getenv('ORION_HOST','localhost')
-IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
 MQTT_HOST= os.getenv('MQTT_HOST','localhost')
 
 # The callback for when the client receives a CONNACK response from the server.
@@ -48,8 +46,8 @@ i=0
 while True:
     print(i)
     msg=dict()
-    msg["s"]=80
-    msg["r"]=str(i)
+    msg["speed"]=80
+    msg["rpm"]=str(i)
     print(json.dumps(msg))
     client.publish("/json/12jggokgpepnvsb2uv4s40d59ov/vehicle012/attrs", json.dumps(msg), qos=0, retain=False)
 

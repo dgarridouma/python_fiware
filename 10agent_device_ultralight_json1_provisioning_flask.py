@@ -45,8 +45,8 @@ json_dict={
      "entity_type": "Vehicle",
      "timezone":    "Europe/Berlin",
      "attributes": [
-       { "object_id": "s", "name": "speed", "type": "Number" },
-       { "object_id": "r", "name": "rpm", "type": "Number" }
+       { "name": "speed", "type": "Number" }, # object s removed (optional) https://iotagent-node-lib.readthedocs.io/en/2.13.0/api/index.html
+       { "name": "rpm", "type": "Number" } # object r removed (optional)
      ],
      "protocol": "PDI-IoTA-UltraLight",
      "transport": "HTTP",

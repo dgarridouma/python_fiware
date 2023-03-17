@@ -42,8 +42,8 @@ json_dict={
      "entity_type": "Vehicle",
      "timezone":    "Europe/Berlin",
      "attributes": [
-       { "object_id": "s", "name": "speed", "type": "Number" },
-       { "object_id": "r", "name": "rpm", "type": "Number" }
+       { "name": "speed", "type": "Number" }, # "s" from ultralight removed, but the "mapping" also worked!
+       { "name": "rpm", "type": "Number" } # "r" from ultralight removed
      ],
       "protocol": "IoTA-JSON", # seems not necessary. Just in case.
       "transport": "MQTT",

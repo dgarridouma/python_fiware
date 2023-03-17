@@ -5,8 +5,6 @@ import paho.mqtt.client as mqtt
 import time
 from time import sleep
 
-ORION_HOST = os.getenv('ORION_HOST','localhost')
-IOTAGENT_HOST = os.getenv('IOTAGENT_HOST','localhost')
 MQTT_HOST= os.getenv('MQTT_HOST','localhost')
 
 # The callback for when the client receives a CONNACK response from the server.
