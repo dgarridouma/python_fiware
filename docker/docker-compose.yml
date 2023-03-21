@@ -445,6 +445,32 @@ services:
     restart: always
     command: memcached -m 2048m
 
+ perseo-core:
+  image: fiware/perseo-core
+  environment:
+    - PERSEO_FE_URL=http://perseo-fe:9090
+    - MAX_AGE=6000
+  networks:
+    default:
+  ports:
+    - 8080:8080    
+  depends_on:
+    - mongo-db
+ 
+ perseo-fe:
+  image: fiware/perseo
+  networks:
+    default:
+  ports:
+    - 9090:9090
+  depends_on:
+    - perseo-core
+  environment:
+    - PERSEO_MONGO_ENDPOINT=mongo-db
+    - PERSEO_CORE_URL=http://perseo-core:8080
+    - PERSEO_LOG_LEVEL=debug
+    - PERSEO_ORION_URL=http://orion:1026/
+ 
 networks:
   default:
     name: iot
