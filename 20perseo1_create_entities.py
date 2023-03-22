@@ -7,7 +7,7 @@ PERSEO_HOST = os.getenv('PERSEO_HOST','localhost')
 
 # Create entity
 json_dict={
-    "id": "urn:ngsi-ld:Termometer:004",
+    "id": "urn:ngsi-ld:Termometer:005",
     "type": "Device",
     "temperature": { "type": "Number", "value": 25.0},
     "motion": { "type": "Number", "value": 0.0},
@@ -30,7 +30,7 @@ print("Status code: ", response.status_code)
 
 # Create entity
 json_dict={
-    "id": "urn:ngsi-ld:Termometer:005",
+    "id": "urn:ngsi-ld:Termometer:006",
     "type": "Device",
     "temperature": { "type": "Number", "value": 15.0},
     "motion": { "type": "Number", "value": 0.0},

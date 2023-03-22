@@ -10,7 +10,7 @@ ORION_HOST = os.getenv('ORION_HOST','localhost')
 while True:
   # Querying data
   newHeaders = {'fiware-service': 'openiot', 'fiware-servicepath': '/'}
-  url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Termometer:004?options=keyValues'
+  url = 'http://'+ORION_HOST+':1026/v2/entities/urn:ngsi-ld:Termometer:005?options=keyValues'
   response=requests.get(url,headers=newHeaders)
   response.encoding='utf-8'
 
