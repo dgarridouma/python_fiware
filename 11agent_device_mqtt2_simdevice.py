@@ -7,20 +7,20 @@ from time import sleep
 
 MQTT_HOST= os.getenv('MQTT_HOST','localhost')
 
-# The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, flags, rc):
-    print("Connected with result code "+str(rc))
+# The callback is called when the client receives a CONNACK response from the server.
+def on_connect(client, userdata, flags, reason_code, properties):
+    print("Connected with result code "+str(reason_code))
 
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
 
     client.subscribe("/11jggokgpepnvsb2uv4s40d59ov/vehicle011/cmd")
 
-# The callback for when a PUBLISH message is received from the server.
-def on_publish(client, userdata, mid):
+# The callback is called when a PUBLISH message is received from the server.
+def on_publish(client, userdata, mid, reason_code, properties):
     print("Published: "+str(mid))
 
-# The callback for when a PUBLISH message is received from the server.
+# The callback is called when a message is received.
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
     res=msg.payload.decode()
@@ -35,7 +35,7 @@ def on_message(client, userdata, msg):
 # Simulate a measurement
 # docker run -it --rm --name mqtt-publisher --network varios_default efrecon/mqtt-client pub -h mosquitto -m "c|1" -t "/4jggokgpepnvsb2uv4s40d59ov/motion001/attrs"
 
-client = mqtt.Client()
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.on_connect = on_connect
 client.on_publish = on_publish
 client.on_message = on_message
