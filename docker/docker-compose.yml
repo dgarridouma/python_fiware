@@ -288,7 +288,7 @@ services:
       default:
 
  quantumleap:
-    image: smartsdk/quantumleap:${QUANTUMLEAP_VERSION}
+    image: orchestracities/quantumleap:${QUANTUMLEAP_VERSION}
     hostname: quantumleap
     ports:
         - "${QUANTUMLEAP_PORT}:${QUANTUMLEAP_PORT}"
