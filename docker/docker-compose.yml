@@ -8,6 +8,10 @@ services:
       default:
    volumes:
       - mongo-db:/data
+   ports:
+      - "27017:27017"
+   expose:
+      - "27017"      
 
  orion:
    image: fiware/orion:${ORION_VERSION}
