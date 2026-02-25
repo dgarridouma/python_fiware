@@ -1,14 +1,15 @@
 #include <WiFi.h>
+#include <HTTPClient.h>
 
 const char* ssid = "YOUR_SSID";
 const char* password = "YOUR_PASSWORD";
 const char* host = "YOUR_CB_IP";
+const int httpPort = 1026;
 
 void setup() {
   Serial.begin(115200);
   delay(10);
-  Serial.println();
-  Serial.println();
+
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
@@ -19,51 +20,27 @@ void setup() {
     Serial.print(".");
   }
   Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
+  Serial.println("WiFi connected - IP: ");
   Serial.println(WiFi.localIP());
 }
 
 void loop() {
-  Serial.print("connecting to ");
-  Serial.println(host);
+  HTTPClient http;
+  String url = "http://" + String(host) + ":" + httpPort + "/version";
 
-  WiFiClient client;
-  const int httpPort = 1026;
-  if (!client.connect(host, httpPort)) {
-    Serial.println("Connection failed");
-    return;
-  }
-
-  String url = "/version";
-
-  Serial.print("Request URL: http://");
-  Serial.print(host);
-  Serial.print(":");
-  Serial.print(httpPort);
+  Serial.print("GET ");
   Serial.println(url);
 
-  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-               "Host: " + host + "\r\n" +
-               "Connection: close\r\n\r\n");
+  http.begin(url);
+  int httpCode = http.GET();
 
-  unsigned long timeout = millis();
-  while (client.available() == 0) {
-    if (millis() - timeout > 5000) {
-      Serial.println(">>> Maximum time exceeded!");
-      client.stop();
-      return;
-    }
+  if (httpCode > 0) {
+    Serial.println("Response code: " + String(httpCode));
+    Serial.println(http.getString());
+  } else {
+    Serial.println("Request failed: " + http.errorToString(httpCode));
   }
 
-  while (client.available()) {
-    String line = client.readStringUntil('\r');
-    Serial.print(line);
-  }
-
-  Serial.println();
-  Serial.println("Closing connection");
-  while (1) {
-    delay(1000); // En ESP32 no es necesario delay(0), pero mantenemos el bucle
-  }
+  http.end();
+  delay(1000);
 }
