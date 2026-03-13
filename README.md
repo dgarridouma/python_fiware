@@ -81,7 +81,7 @@ Within each group, scripts are suffixed with a step number (e.g. `08agent_device
 
 ## Hardware Examples
 
-The following folders contain MicroPython code for physical devices:
+The following folders contain code for physical devices:
 
 | Folder | Description |
 |---|---|
