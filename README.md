@@ -1,6 +1,6 @@
-# Python FIWARE Examples
+# FIWARE Examples
 
-Several examples using Python with FIWARE. The scripts cover the full lifecycle of a FIWARE-based IoT platform: entity management with Orion Context Broker, IoT Agent integration over HTTP and MQTT, historical data persistence, time series, and visualisation.
+Several examples using FIWARE. The Python scripts cover the full lifecycle of a FIWARE-based IoT platform: entity management with Orion Context Broker, IoT Agent integration over HTTP and MQTT, historical data persistence, time series, and visualisation. Additional examples use real hardware like NodeMCU and ESP32.
 
 Some examples are based on the original curl-based [FIWARE tutorials](https://fiware-tutorials.readthedocs.io/en/latest/).
 
