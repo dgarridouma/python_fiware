@@ -48,7 +48,7 @@ json_dict={
        { "name": "speed", "type": "Number" }, # object s removed (optional) https://iotagent-node-lib.readthedocs.io/en/2.13.0/api/index.html
        { "name": "rpm", "type": "Number" } # object r removed (optional)
      ],
-     "protocol": "PDI-IoTA-UltraLight",
+     "protocol": "IoTA-JSON",
      "transport": "HTTP",
      "endpoint": "http://"+YOUR_IP+":"+YOUR_PORT+"/vehicle010",
      "commands": [ 
