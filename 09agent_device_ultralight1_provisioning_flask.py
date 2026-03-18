@@ -57,7 +57,7 @@ json_dict={
        { "object_id": "s", "name": "speed", "type": "Number" },
        { "object_id": "r", "name": "rpm", "type": "Number" }
      ],
-     "protocol": "PDI-IoTA-UltraLight",
+     "protocol": "IoTA-UL",
      "transport": "HTTP",
      "endpoint": "http://"+YOUR_IP+":"+YOUR_PORT+"/vehicle009",
      "commands": [ 
